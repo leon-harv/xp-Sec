@@ -9,11 +9,3 @@ Once you've done that simply add this line to each file on your website and you'
 include 'xpSec/xpSec.php';
 
 You can edit the configuration options in "xpSec/xpSec.php".
-
-
-Feature list
-
-~ URL keyword search
-~ GET request keyword search
-~ POST request keyword search
-~
