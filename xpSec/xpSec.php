@@ -26,16 +26,6 @@
 	$errorPage = "/error.html";
 	//ERROR PAGE TO DISPLAY ON BROWSERS THAT AREN'T CHROME.
 
-	$chromeError = 0;
-	//If 1, chrome will display this http://puu.sh/6k7zS.png if banned. NOTE: this can be spoofed on another browser 
-	//and can allow for full path disclosure.
-
-	$GETpreventXSS = 1;
-	//If 1, all GET requests will be sanatized using htmlentities().
-
-	$POSTpreventXSS = 1;
-	//If 1, all POST requests will be sanatized using htmlentities().
-
 //CONFIGURATION// 
 
 
@@ -89,9 +79,6 @@ foreach($_POST as $postName => $postData) {
 			killPage();
 		} 
 	}
-	if ($POSTpreventXSS = 1) {
-		$_POST[$postName] = htmlentities($_POST[$postName]); //XSS prevention
-	}
 }
 //POST REQUEST CHECK//
 
@@ -118,10 +105,6 @@ foreach($_GET as $getName => $getData) {
 			killPage();
 		} 
 	}
-	//GET REQUEST KEYWORD CHECK//
-	if ($GETpreventXSS = 1) {
-		$_GET[$getName] = htmlentities($_GET[$getName]); //XSS prevention
-	}
 }
 //GET REQUEST CHECK//
 
@@ -147,16 +130,12 @@ if (is_array($_POST)) {
 
 ////FUNCTIONS////
 function killPage() { 
-	global $errorPage, $chromeError;
-	if (stripos($_SERVER['HTTP_USER_AGENT'], "chrome") && $chromeError == 1) {
-		while (1) { 
-			echo ' ';
-		}
-	} else {
-		 header('HTTP/1.1 500 Internal Server Error', true, 500);
-		 include realpath(dirname(__FILE__)) . $errorPage;
-		 die();
-	}
+	global $errorPage;
+
+	 header('HTTP/1.1 500 Internal Server Error', true, 500);
+	 include realpath(dirname(__FILE__)) . $errorPage;
+	 die();
+	
 }
 
 function addWarning() {
